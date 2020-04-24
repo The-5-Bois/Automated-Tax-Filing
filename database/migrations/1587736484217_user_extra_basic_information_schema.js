@@ -7,6 +7,8 @@ class UserExtraBasicInformationSchema extends Schema {
   up () {
     this.create('user_extra_basic_informations', (table) => {
       table.increments()
+	    table.integer('user_id').unsigned().references('id').inTable('users')
+	    table.integer('extra_basic_information_id').unsigned().references('id').inTable('extra_basic_informations')
       table.timestamps()
     })
   }

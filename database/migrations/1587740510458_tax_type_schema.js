@@ -3,9 +3,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class ExtraBasicInformationSchema extends Schema {
+class TaxTypeSchema extends Schema {
   up () {
-    this.create('extra_basic_informations', (table) => {
+    this.create('tax_types', (table) => {
       table.increments()
       table.string('title', 254)
       table.string('slug', 254)
@@ -14,8 +14,8 @@ class ExtraBasicInformationSchema extends Schema {
   }
 
   down () {
-    this.drop('extra_basic_informations')
+    this.drop('tax_types')
   }
 }
 
-module.exports = ExtraBasicInformationSchema
+module.exports = TaxTypeSchema

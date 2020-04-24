@@ -7,6 +7,8 @@ class CommercialVehicleSchema extends Schema {
   up () {
     this.create('commercial_vehicles', (table) => {
       table.increments()
+	    table.integer('user_id').unsigned().references('id').inTable('users')
+      table.string('p_advance_tax_credits', 254)
       table.timestamps()
     })
   }

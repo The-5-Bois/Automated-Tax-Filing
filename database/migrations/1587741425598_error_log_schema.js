@@ -3,19 +3,20 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class RolesSchema extends Schema {
+class ErrorLogSchema extends Schema {
   up () {
-    this.create('roles', (table) => {
+    this.create('error_logs', (table) => {
       table.increments()
+      table.string('code', 50)
       table.string('title', 50)
-      table.string('slug', 50)
+      table.text('description')
       table.timestamps()
     })
   }
 
   down () {
-    this.drop('roles')
+    this.drop('error_logs')
   }
 }
 
-module.exports = RolesSchema
+module.exports = ErrorLogSchema

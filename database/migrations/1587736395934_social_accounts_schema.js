@@ -7,6 +7,9 @@ class SocialAccountsSchema extends Schema {
   up () {
     this.create('social_accounts', (table) => {
       table.increments()
+	    table.integer('user_id').unsigned().unique().references('id').inTable('users')
+      table.string('provider', 254).unique()
+      table.string('provider_user_id', 254)
       table.timestamps()
     })
   }

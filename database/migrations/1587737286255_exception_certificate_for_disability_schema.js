@@ -7,6 +7,8 @@ class ExceptionCertificateForDisabilitySchema extends Schema {
   up () {
     this.create('exception_certificate_for_disabilities', (table) => {
       table.increments()
+	    table.integer('user_id').unsigned().references('id').inTable('users')
+      table.boolean('issued').defaultTo(false)
       table.timestamps()
     })
   }

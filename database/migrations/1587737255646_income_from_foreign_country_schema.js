@@ -7,6 +7,8 @@ class IncomeFromForeignCountrySchema extends Schema {
   up () {
     this.create('income_from_foreign_countries', (table) => {
       table.increments()
+	    table.integer('user_id').unsigned().references('id').inTable('users')
+      table.string('r_dtaa_credits', 254)
       table.timestamps()
     })
   }
