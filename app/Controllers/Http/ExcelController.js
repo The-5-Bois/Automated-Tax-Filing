@@ -5,7 +5,7 @@ const Helpers = use('Helpers');
 
 class ExcelController {
     async index ({ view }) {
-        const excelFile = Helpers.publicPath('files/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.xlsm')//'files/IT1_Individual_Resident_Return_Template.xlsx')
+        const excelFile = Helpers.publicPath('files/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.xlsm')
 
         // Read file
         var workbook = XLSX.readFile(excelFile);//,{"bookVBA":true,"password":false});
