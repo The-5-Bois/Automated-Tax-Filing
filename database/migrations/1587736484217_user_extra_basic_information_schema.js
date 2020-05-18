@@ -9,6 +9,7 @@ class UserExtraBasicInformationSchema extends Schema {
       table.increments()
 	    table.integer('user_id').unsigned().references('id').inTable('users')
 	    table.integer('extra_basic_information_id').unsigned().references('id').inTable('extra_basic_informations')
+      table.integer('return_period_id').unsigned().references('id').inTable('return_periods')
       table.timestamps()
     })
   }

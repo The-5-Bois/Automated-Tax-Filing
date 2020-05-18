@@ -23,6 +23,7 @@ class OtherSourceOfIncomeSchema extends Schema {
       table.string('s_previous_years_loses', 254)
       table.string('t_income_computation_self', 254)
       table.string('t_tax_computation', 254)
+      table.integer('return_period_id').unsigned().references('id').inTable('return_periods')
       table.timestamps()
     })
   }

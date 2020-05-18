@@ -9,6 +9,7 @@ class MortgageSchema extends Schema {
       table.increments()
 	    table.integer('user_id').unsigned().references('id').inTable('users')
       table.string('j_computation_of_mortgage', 254)
+      table.integer('return_period_id').unsigned().references('id').inTable('return_periods')
       table.timestamps()
     })
   }

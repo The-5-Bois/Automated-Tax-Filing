@@ -7,7 +7,7 @@ class CompulsoryBasicInformationSchema extends Schema {
   up () {
     this.create('compulsory_basic_informations', (table) => {
       table.increments()
-	    table.integer('user_id').unsigned().references('id').inTable('users')
+	  table.integer('user_id').unsigned().references('id').inTable('users')
       table.string('taxpayer_pin', 254)
       table.string('type_of_return', 254)
       table.string('basic_salary', 254)
@@ -17,6 +17,7 @@ class CompulsoryBasicInformationSchema extends Schema {
       table.string('personal_relief_entitlement', 254)
       table.string('employer_name', 254)
       table.string('employer_pin', 254)
+      table.integer('return_period_id').unsigned().references('id').inTable('return_periods')
       table.timestamps()
     })
   }
