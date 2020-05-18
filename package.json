@@ -12,7 +12,7 @@
     "adonisjs",
     "adonis-app"
   ],
-  "author": "",
+  "author": "The FuckBois",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
@@ -28,11 +28,7 @@
     "@adonisjs/session": "^1.0.27",
     "@adonisjs/shield": "^1.0.8",
     "mysql": "^2.18.1",
-    "@grapecity/spread-excelio": "^11.2.1",
-    "@grapecity/spread-sheets": "^11.2.1",
-    "FileReader": "^0.10.2",
-    "bufferjs": "1.0.0",
-    "mock-browser": "^0.92.14"
+    "xlsx": "^0.16.1"
   },
   "devDependencies": {},
   "autoload": {
