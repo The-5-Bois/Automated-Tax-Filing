@@ -2,10 +2,13 @@
 
 const XLSX = require('xlsx');
 const Helpers = use('Helpers');
+const fs = require('fs');
+const zlib = require('zlib');
+var express = require('express');
 
 class ExcelController {
     async readExcelFile ({ view }) {
-        const excelFile = Helpers.publicPath('files/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.xlsm')
+        const excelFile = Helpers.publicPath('files/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.xlsm');
 
         // Read file
         var workbook = XLSX.readFile(excelFile);//,{"bookVBA":true,"password":false});
@@ -56,15 +59,46 @@ class ExcelController {
     }
     
     async writeToExcelFile ({ view }) {
-
+        const excelFile = Helpers.publicPath('files/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.xlsm');
     }
     
     async zipExcelFile ({ view }) {
+        const excelFile = Helpers.publicPath('files/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.xlsm');
+        const zippedExcelFile = Helpers.publicPath('files/zip/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.rar');
 
+        const fileContents = fs.createReadStream(excelFile);
+        const writeStream = fs.createWriteStream(zippedExcelFile);
+        const zip = zlib.createGzip();
+
+        fileContents.pipe(zip).pipe(writeStream);
+
+        return true;
     }
     
-    async downloadExcelFile ({ view }) {
+    async unZipExcelFile ({ view }) {
+        const zipFile = Helpers.publicPath('files/zip/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.zip');
+        const unZippedExcelFile = Helpers.publicPath('files/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.xlsx');
 
+        const fileContents = fs.createReadStream(zipFile);
+        const writeStream = fs.createWriteStream(unZippedExcelFile);
+        const unzip = zlib.createGunzip();
+
+        fileContents.pipe(unzip).pipe(writeStream).on('finish', (err) => {
+            if (err) return reject(err);
+            else resolve();
+        });
+
+        return true;
+    }
+    
+    async downloadExcelFile (response) {
+        const zipFile = Helpers.publicPath('files/zip/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.zip');
+
+        setTimeout(() => {
+            response.sendFile(zipFile);
+        }, 500);
+
+        return true;
     }
 }
 
