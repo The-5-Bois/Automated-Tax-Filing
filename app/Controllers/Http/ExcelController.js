@@ -4,7 +4,6 @@ const XLSX = require('xlsx');
 const Helpers = use('Helpers');
 const fs = require('fs');
 const zlib = require('zlib');
-var express = require('express');
 
 class ExcelController {
     async readExcelFile ({ view }) {
@@ -13,11 +12,6 @@ class ExcelController {
         // Read file
         var workbook = XLSX.readFile(excelFile);//,{"bookVBA":true,"password":false});
         var sheet_name_list = workbook.SheetNames;
-
-        // Detecting macros in the workbook
-        /*if(!!workbook.vbaraw) return true;
-        const sheets = workbook.SheetNames.map((n) => workbook.Sheets[n]);
-        return sheets.some((ws) => !!ws && ws['!type']=='macro');*/
 
         var data = [];
         sheet_name_list.forEach(function(y) {
@@ -60,6 +54,40 @@ class ExcelController {
     
     async writeToExcelFile ({ view }) {
         const excelFile = Helpers.publicPath('files/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.xlsm');
+		
+		var workbook = XLSX.readFile(excelFile, { bookVBA:true, cellStyles:true, cellHTML:true, bookDeps:true, bookFiles:true });
+
+        // Detecting macros in the workbook
+        /*if(!!workbook.vbaraw) return true;
+        const sheets = workbook.SheetNames.map((n) => workbook.Sheets[n]);
+        return sheets.some((ws) => !!ws && ws['!type']=='macro');*/
+
+		// Exact order of worksheets
+		//[ 'Read Me', 'Errors', 'Data', 'ImportCsv', 'Validations', 'ValidationList', 'Macros_Disabled', 'A_Basic_Info', 'B_Employees_Dtls', 'C_Disabled_Employees_Dtls', 'D_Computation_of_Car_Benefit', 'E_Computation_of_Insu_Relief', 'F_Lump_Sum_Payments_Dtls', 'G_Arrears_Dtls_E', 'H_Arrears_Dtls_DE', 'I_Gratuity_Dtls', 'J_FBT_Dtls', 'K_PAYE_Payment_Credits', 'M_Housing_Levy_Dtls', 'N_Tax_Due', 'Sheet1' ]
+		
+		var basic_info_sheet = workbook.SheetNames[7]; // Basic Info Worksheet
+		var worksheet = workbook.Sheets[basic_info_sheet];
+		//console.log(basic_info_sheet);
+		//console.log(worksheet);
+
+		// Read value in A3 
+		var cell = worksheet['A3'].v;
+		console.log(cell);
+		
+		var cell = worksheet['B3'];
+		if(!cell) cell = worksheet['B3'] = {t:'s'}; // [ 'b' -> Boolean, 'e' -> Error, 'n' -> Number, 'd' -> Date, 's' -> Text, 'z' -> Stub ]
+
+		// Modify value in B3
+		worksheet['B3'].v = 'A12345678Y';
+
+		// Write to new file
+		var workbookNew = {};
+		workbookNew.SheetNames = workbook.SheetNames;
+		workbookNew.Sheets = workbook.Sheets;
+		workbookNew.vbaraw = workbook.vbaraw;
+		XLSX.writeFile(workbookNew, Helpers.publicPath('files/test.xlsx'), { bookSST:true });
+
+		return true;
     }
     
     async zipExcelFile ({ view }) {
@@ -91,14 +119,14 @@ class ExcelController {
         return true;
     }
     
-    async downloadExcelFile (response) {
+    async downloadExcelFile ({ request, response }) {
         const zipFile = Helpers.publicPath('files/zip/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.zip');
 
-        setTimeout(() => {
-            response.sendFile(zipFile);
-        }, 500);
-
-        return true;
+		response.header('content-type', 'application/zip')
+		response.header('content-length', Buffer.byteLength(zipFile))
+		response.send(zipFile)
+		
+		return true;
     }
 }
 
