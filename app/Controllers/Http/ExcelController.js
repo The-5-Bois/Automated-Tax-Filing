@@ -85,7 +85,7 @@ class ExcelController {
 		workbookNew.SheetNames = workbook.SheetNames;
 		workbookNew.Sheets = workbook.Sheets;
 		workbookNew.vbaraw = workbook.vbaraw;
-		XLSX.writeFile(workbookNew, Helpers.publicPath('files/test.xlsx'), { bookSST:true });
+		XLSX.writeFile(workbookNew, Helpers.publicPath('files/test.xlsm'), { bookSST:true });
 
 		return true;
     }
