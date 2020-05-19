@@ -4,7 +4,7 @@ const XLSX = require('xlsx');
 const Helpers = use('Helpers');
 
 class ExcelController {
-    async index ({ view }) {
+    async readExcelFile ({ view }) {
         const excelFile = Helpers.publicPath('files/Normal-P10_Return-with-New-Rates-Version-18.0.0-1.xlsm')
 
         // Read file
@@ -48,10 +48,23 @@ class ExcelController {
             data.shift();
             data.shift();
             
-            console.log(data);
+            //console.log(data);
         });
 
-        return view.render('welcome', { data })
+        //return view.render('welcome', { data })
+        return data;
+    }
+    
+    async writeToExcelFile ({ view }) {
+
+    }
+    
+    async zipExcelFile ({ view }) {
+
+    }
+    
+    async downloadExcelFile ({ view }) {
+
     }
 }
 

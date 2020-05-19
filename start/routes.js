@@ -17,4 +17,4 @@
 const Route = use('Route')
 
 //Route.on('/').render('welcome')
-Route.get('/', 'ExcelController.index')
+Route.get('/', 'ExcelController.readExcelFile')
